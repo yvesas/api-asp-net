@@ -26,18 +26,21 @@ public class WalletsController : ControllerBase
   }
 
   // GET: api/wallets/5
-  [HttpGet("{wallet}")]
+  [HttpGet("{id}")]
   public async Task<ActionResult<Wallet>> GetWallet(int id)
   {
-    var wallet = await _context.Wallets.FindAsync(id);
-
-    if (wallet == null)
-    {
-      return NotFound();
-    }
-
-    return wallet;
+    var wallet = await _context.Wallets.FindAsync(id);     
+    return wallet == null ? NotFound() : Ok(wallet);
   }
+
+  // GET: api/wallets/userid/2
+  [HttpGet("user/{id}")]
+  public async Task<ActionResult<IEnumerable<Wallet>>> GetWalletByUserID(int id)
+  {
+    var userWallets = await _context.Wallets.Where(w => w.UserID == id).ToListAsync();
+    return userWallets == null ? NotFound() : Ok(userWallets);
+  }
+
 
   // POST: api/wallets
   [HttpPost]
