@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    container_name: api_yves
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Database=postgres;Username=postgres;Password=postgres"
+  db:
+    container_name: db
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # db:
+  #   image: mcr.microsoft.com/azure-sql-edge
+  #   ports:
+  #     - "1433:1433"
+  #   environment:
+  #     - SA_PASSWORD=@someThingComplicated1234
+  #     - ACCEPT_EULA=Y
+
+volumes:
+  pgdata: {}
