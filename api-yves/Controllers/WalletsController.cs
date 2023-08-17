@@ -56,7 +56,9 @@ public class WalletsController : ControllerBase
     _context.Wallets.Add(wallet);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetWallet), new { id = wallet.Id }, wallet);
+    var newWallet = CreatedAtAction(nameof(GetWallet), new { id = wallet.Id }, wallet);
+
+    return Ok(newWallet);
   }
 
   // PUT: api/wallets/5
