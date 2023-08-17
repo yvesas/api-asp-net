@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
-namespace Domain.Entities;
+namespace Core.Domain.Entities;
 
 [Table("wallets")]
 public class Wallet
@@ -17,9 +17,6 @@ public class Wallet
     public string Bank { get; set; }
 
     [Column("last_update")]
-    public DateTime LastUpdate { get; set; }
-
-    [Column("created_at")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdate { get; set; } = DateTime.Now;
 }
 

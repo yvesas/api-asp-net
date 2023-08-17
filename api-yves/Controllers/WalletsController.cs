@@ -1,5 +1,6 @@
 using Repository;
-using Domain.Entities;
+using Core.Domain.Entities;
+using Core.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace api_yves.Controllers;
@@ -39,8 +40,19 @@ public class WalletsController : ControllerBase
 
   // POST: api/wallets
   [HttpPost]
-  public async Task<ActionResult<Wallet>> PostWallet(Wallet wallet)
-  {
+  public async Task<ActionResult<CreateWalletDTO>> PostWallet(CreateWalletDTO modelWallet)
+  { 
+    if(!ModelState.IsValid){
+      return BadRequest();
+    };
+
+    var wallet = new Wallet {
+      UserID = modelWallet.UserID,
+      Amout = modelWallet.Amout,
+      Bank = modelWallet.Bank,
+      LastUpdate = DateTime.Now
+    };
+
     _context.Wallets.Add(wallet);
     await _context.SaveChangesAsync();
 

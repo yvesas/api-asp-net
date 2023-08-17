@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
-namespace Domain.Entities;
+namespace Core.Domain.Entities;
 
  [Table("users")]
   public class User
@@ -17,5 +17,5 @@ namespace Domain.Entities;
         public string CPF { get; set; }
     
     [Column("created_at")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
  }

@@ -1,4 +1,4 @@
-using Domain.Entities;
+using Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository

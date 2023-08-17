@@ -1,5 +1,6 @@
 using Repository;
-using Domain.Entities;
+using Core.Domain.Entities;
+using Core.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace api_yves.Controllers;
@@ -20,7 +21,8 @@ public class UsersController : ControllerBase
   [HttpGet]
   public async Task<ActionResult<IEnumerable<User>>> GetUsers()
   {
-    return await _context.Users.ToListAsync();
+    var users = await _context.Users.AsNoTracking().ToListAsync();
+    return Ok(users);
   }
 
   // GET: api/users/5
@@ -29,22 +31,34 @@ public class UsersController : ControllerBase
   {
     var user = await _context.Users.FindAsync(id);
 
-    if (user == null)
-    {
-      return NotFound();
-    }
+    // if (user == null)
+    // {
+    //   return NotFound();
+    // }
 
-    return user;
+    return user == null ? NotFound() : Ok(user);
   }
 
   // POST: api/users
   [HttpPost]
-  public async Task<ActionResult<User>> PostUser(User user)
-  {
+  public async Task<ActionResult<CreateUserDTO>> PostUser(CreateUserDTO model)
+  { 
+    if(!ModelState.IsValid){
+      return BadRequest();
+    };
+
+    var user = new User {
+      Name = model.Name,
+      BirthDate = model.BirthDate,
+      CPF = model.CPF
+    };
+
     _context.Users.Add(user);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+    var newUser = CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+
+    return Ok(newUser);
   }
 
   // PUT: api/users/5
@@ -74,7 +88,7 @@ public class UsersController : ControllerBase
       }
     }
 
-    return NoContent();
+    return Ok("success");
   }
 
   // DELETE: api/users/5
