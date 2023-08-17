@@ -18,5 +18,8 @@ public class Wallet
 
     [Column("last_update")]
     public DateTime LastUpdate { get; set; } = DateTime.Now;
+
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
 

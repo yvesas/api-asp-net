@@ -21,7 +21,8 @@ public class WalletsController : ControllerBase
   [HttpGet]
   public async Task<ActionResult<IEnumerable<Wallet>>> GetWallets()
   {
-    return await _context.Wallets.ToListAsync();
+    var wallets = _context.Wallets.AsNoTracking().ToListAsync();
+    return Ok(wallets);
   }
 
   // GET: api/wallets/5
@@ -49,8 +50,7 @@ public class WalletsController : ControllerBase
     var wallet = new Wallet {
       UserID = modelWallet.UserID,
       Amout = modelWallet.Amout,
-      Bank = modelWallet.Bank,
-      LastUpdate = DateTime.Now
+      Bank = modelWallet.Bank
     };
 
     _context.Wallets.Add(wallet);

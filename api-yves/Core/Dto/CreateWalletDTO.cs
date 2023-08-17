@@ -12,6 +12,4 @@ public class CreateWalletDTO
   [Required]
   public string Bank { get; set; }
 
-  [Required]
-  public DateTime LastUpdate { get; set; }  
 }

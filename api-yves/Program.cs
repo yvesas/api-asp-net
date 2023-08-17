@@ -14,7 +14,7 @@ var configuration = builder.Configuration;
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
     // options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseHttpsRedirection();
 
