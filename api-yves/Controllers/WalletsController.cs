@@ -21,7 +21,7 @@ public class WalletsController : ControllerBase
   [HttpGet]
   public async Task<ActionResult<IEnumerable<Wallet>>> GetWallets()
   {
-    var wallets = _context.Wallets.AsNoTracking().ToListAsync();
+    var wallets = await _context.Wallets.AsNoTracking().ToListAsync();
     return Ok(wallets);
   }
 
